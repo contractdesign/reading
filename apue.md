@@ -63,10 +63,32 @@ Functions for process control:
 Note: to find the location of a header file, use `find` in
 /usr/include and /usr/lib (see [stackoverflow](http://stackoverflow.com/questions/13079650/how-can-i-find-the-header-files-of-the-c-programming-language-in-linux)).
 
-## Threads
+Note: the Unix file system directory structure is defined in
+[Filesystem Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) as maintained by the Linux Foundation.
 
--   **thread**: set of machine instructions executing at one time.
-    identified by **thread id**
+## Error Handling (1.7)
 
-All threads within a process share the same address space, file descriptors,
-stacks, and process-related attibutes.
+-   convention: a negative value is returned in the event of an error,
+    while a non-negative value is returned for normal operation
+-   the last error value stored in a global value called `errno` which
+    is defined in `errno.h`
+-   the function `perror` will print a string corresponding to the error
+
+two categories of errors:
+
+1.  fatal: has no recovery action.  print message and exit
+2.  non-fatal: could be due to a temporary condition, such as a
+    resource crunch.  the action is to delay and retry again
+
+## User Identification (1.8)
+
+`getuid` and `getgit` return the user and group IDs, respectively.
+
+Login name is in `/etc/passwd`
+
+Users may belong to supplementary groups which are listed in
+`/etc/group`.
+
+## Signals (1.9)
+
+**signal**: notifies a process that some condition has occurred

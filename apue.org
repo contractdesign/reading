@@ -56,7 +56,10 @@ Functions for process control:
 
 Note: to find the location of a header file, use ~find~ in
 /usr/include and /usr/lib (see [[http://stackoverflow.com/questions/13079650/how-can-i-find-the-header-files-of-the-c-programming-language-in-linux][stackoverflow]]).
-** TODO how is /usr organized?
+
+Note: the Unix file system directory structure is defined in
+[[https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard][Filesystem Hierarchy Standard]] as maintained by the Linux Foundation.
+
 
 ** TODO continue notes after figure 1.7
 
