@@ -1,10 +1,8 @@
-Notes on "Advanced Programming in the UNIX Environment 3rd Edition" (APUE)
+# Introduction (1)
 
-# Introduction
+## UNIX Architecture (1.2)
 
-## Section 1.2
-
-**operating system** definition:
+**operating system**
 
 -   (strict) software that controls the hardware resources of a computer
     and provides an environment under which programs can run
@@ -14,32 +12,35 @@ Notes on "Advanced Programming in the UNIX Environment 3rd Edition" (APUE)
 **kernel**: small core of the environment
 
 **system calls**: programmatic interface to the kernel.  Applications
-access system calls via either the shell or library routines.
+access system calls via either the shell or through library routines.
 
-Comment: `man` pages are organized into 8 sections, corresponding to the
+Note: `man` pages are organized into 8 sections, corresponding to the
 type of the command or term.  Examples of sections include (1) executable
-programs, (2) system calls provided by the kernel, (6), games.
+programs, (2) system calls provided by the kernel, (6) games.
 
-## Section 1.5
+## Input and Output (1.5)
 
 **File descriptor**: small non-negative integer that the kernel uses to
 identify files accessed by a process.
 
 Shells open three file descriptors whenever a new program is run:
 standard input (0), output (1), and error (2) ([wikipedia](https://en.wikipedia.org/wiki/File_descriptor%5Dwikipedia)).  Constants
-for these file descriptors are defined in <unistd.h>.
+for these file descriptors are defined in `unistd.h`.
 
-### Unbuffered I/O (<unistd.h>)
+Note: see `stat` to list metadata about a file.
 
-Unbuffered I/O is provided by functions `open`, `read`, `write`,
-`lseek`, `close`.  These functions require a file descriptor as an
-argument.
+### Unbuffered I/O
 
-### Standard I/O (stdio.h)
+Unbuffered I/O is defined in `unistd.h` which provides the functions
+`open`, `read`, `write`, `lseek`, `close`.  These functions require a
+file descriptor as an argument.
 
-Buffered I/O is provided stdio.h
+### Standard I/O
 
-## Section 1.6 Programs and Processes
+Buffered I/O is provided by `stdio.h`.  See `man stdio` for a list of
+functions.
+
+## Programs and Processes (1.6)
 
 **program**
 
@@ -59,9 +60,13 @@ Functions for process control:
 2.  `exec` (7 variants)
 3.  `waitpid`
 
-Comment: to find the location of a header file, use `find` in
+Note: to find the location of a header file, use `find` in
 /usr/include and /usr/lib (see [stackoverflow](http://stackoverflow.com/questions/13079650/how-can-i-find-the-header-files-of-the-c-programming-language-in-linux)).
 
-## TODO how is /usr organized?
+## Threads
 
-## TODO continue notes after figure 1.7
+-   **thread**: set of machine instructions executing at one time.
+    identified by **thread id**
+
+All threads within a process share the same address space, file descriptors,
+stacks, and process-related attibutes.
