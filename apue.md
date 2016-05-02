@@ -1,4 +1,4 @@
-# Notes on *Advanced Programming in the UNIX Environment*
+# Notes on *Advanced Programming in the UNIX Environment, 3rd Edition*
 
 ## Introduction (1)
 
@@ -6,21 +6,22 @@
 
 **operating system**
 
--   (strict) software that controls the hardware resources of a computer
+-   (strict def.) software that controls the hardware resources of a computer
     and provides an environment under which programs can run
--   (broad) all software that makes a computer useful, including system
+-   (broad def.) all software that makes a computer useful, including system
     utilities, applications, shells, libraries
 
 **kernel**: small core of the environment
 
 **system calls**: programmatic interface to the kernel.  Applications
-access system calls via either the shell or through library routines.
-The system calls are listed in the man pages:
+access system calls via either the shell or through library routines,
+such as those defined in libc.  The system calls are listed in the man
+pages:
 
     $ man syscalls
 
-The standard C library is described in `man libc`.  glibc is the most
-commonly used standard C library in Linux.
+The standard C library is described in `man libc`.  GNU's glibc is the
+most commonly used standard C library in Linux.
 
 Note: `man` pages are organized into 8 sections, corresponding to the
 type of the command or term.  Examples of sections include (1) executable
@@ -45,11 +46,15 @@ Note: To list metadata about a file use the command `stat`.
 
 2.  Standard I/O
 
-    Buffered I/O is provided by `stdio.h`, including functions such as
-    `fopen`, `fseek`, `fclose` These functions generally require a file
-    pointer (`FILE *`) as an argument.  For a full list of functions, do
+    Buffered I/O offers better performance than unbuffered I/O and is
+    provided by `stdio.h`.  It includes functions such as `fopen`,
+    `fseek`, `fclose`   For a full list of functions, do
     
         $ man stdio
+    
+    These functions generally require a file pointer (`FILE *`) as an
+    argument.  The `FILE` structure is implementation-dependent but [here](https://sourceware.org/git/?p=glibc.git;a=blob;f=libio/libio.h;h=efd09f120b49a7cdeef11baba8bce8d4e94215db;hb=HEAD#l241)
+    is glibc's definition.
 
 ### Programs and Processes (1.6)
 
@@ -67,14 +72,13 @@ Note: To list metadata about a file use the command `stat`.
 
     Functions for process control:
     
-    1.  `fork`
-    2.  `exec` (7 variants)
-    3.  `waitpid`
+    1.  `fork()`
+    2.  `exec()` (7 variants)
+    3.  `waitpid()`
     
     Note: to find the location of a header file, use `find` in
     /usr/include and /usr/lib (see [stackoverflow](http://stackoverflow.com/questions/13079650/how-can-i-find-the-header-files-of-the-c-programming-language-in-linux)).
     
-    :dirstructure:
     Note: the Unix file system directory structure is defined in
     [Filesystem Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) as maintained by the Linux Foundation.
 
@@ -110,3 +114,13 @@ Use the `signal` to specify a function to handle the signal (signal handler)
     signal( SIGINT, sig_int)  // sig_int is the handler
 
 A list of the signals can be found from `man -s 7 signal`.
+
+# Related Notes
+
+## Linux Kernel API
+
+This [link](http://www.cs.bham.ac.uk/~exr/lectures/opsys/12_13/docs/kernelAPI/) has a number of functions and data types available for use
+from kernel space.  Useful portions:
+
+-   driver basics
+-   data types
