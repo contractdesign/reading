@@ -1,25 +1,42 @@
 Open vSwitch Cheat Sheet
 
-* Commands
+* Architecture
+Open vSwitch is comprised of three parts:
+
+| Component          | Description                            | Commandline Control             |
+|--------------------+----------------------------------------+---------------------------------|
+| osvdb-server       | database storing switch configuration  | ovs-vsctl, ovsdb-tool (offline) |
+| ovs-vswitchd       | slow path implementing OpenFlow switch | ovs-ofctl                       |
+| openvswitch_mod.ko | fast path (kernel module)              | ovs-dpctl                       |
+
+
+See [[http://www.yet.org/images/posts/ovs-archi.png][diagram]] for relationship between components.
+
+
+* Commandline Control
 ** ovs-vsctl
 The [[http://openvswitch.org/support/dist-docs/ovs-vsctl.8.txt][ovs-vsctl]] program configures ovs-vswitchd(8) by providing a
 high-level interface to its configuration database.  See
 ovs-vswitchd.conf.db(5) for comprehensive documentation of the
 database schema.
 
-
+** ovsdb-tool
+The [[http://openvswitch.org/support/dist-docs/ovsdb-tool.1.txt][ovsdb-tool]] program is a command-line tool for managing Open
+vSwitch database (OVSDB) files.  It does not interact directly with
+running Open vSwitch database servers (instead, use ovsdb-client).
 
 
 ** ovs-ofctl
 The [[http://openvswitch.org/support/dist-docs/ovs-ofctl.8.txt][ovs-ofctl]] program is a command line tool for monitoring and admin‐
 istering OpenFlow switches.  It can also show the current state of an
 OpenFlow switch, including features, configuration, and table entries.
-It should work with any OpenFlow switch, not just Open vSwitch.
+It should work with *any* OpenFlow switch, not just Open vSwitch.
 
 *** Management
 show switch <switch>     print info on switch
 dump-tables <switch>     statistics for each of the flow tables used
-dump-flows <switch>
+dump-flows <switch>      print tables
+dump-ports <switch>      
 
 *** Flow Table
 add-flow <switch> <flow>  
@@ -35,7 +52,17 @@ monitor <switch>
 probe <switch>
 ping <switch> [n]
 
+** ovs-dpctl
+The [[http://openvswitch.org/support/dist-docs/ovs-dpctl.8.txt][ovs-dpctl]] program can create, modify, and delete Open vSwitch
+datapaths.  A single machine may host any number of datapaths.
 
+TODO: speaks to kernel module
+
+This program works only with datapaths that are implemented outside of
+ovs-vswitchd itself, such as the Linux and Windows kernel-based data‐
+paths.  To manage datapaths that are integrated into ovs-vswitchd,
+such as the userspace (netdev) datapath, use ovs-appctl(8) to invoke
+the dpctl/* commands, which are documented in ovs-vswitchd(8).
 
 ** ovs-appctl
 Open vSwitch daemons (TODO) accept certain commands at runtime to control
@@ -44,7 +71,8 @@ common set of commands documented under COMMON COMMANDS below.
 
 ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
 
-** ovs-dpctl
+
+
 
 
 
@@ -54,8 +82,14 @@ ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
 
 
 
-* References
-1. [[https://github.com/openvswitch/ovs/blob/master/tutorial/Tutorial.md][tutorial]] that works through a VLAN example
-3. [[http://openvswitch.org/support/config-cookbooks/][Configuration cookbook]]
-2. another [[http://therandomsecurityguy.com/openvswitch-cheat-sheet/][cheat sheet]]
-3. [[http://www.yet.org/2014/09/openvswitch-troubleshooting/][OpenStack Neutron and OVS]]
+* Other
+** Specifications
+- [[https://tools.ietf.org/html/rfc7047][RFC 7047]]: The Open vSwitch Database Management Protocol
+
+
+** Tutorials
+- [[https://github.com/openvswitch/ovs/blob/master/tutorial/Tutorial.md][tutorial]] that works through a VLAN example
+- [[http://openvswitch.org/support/config-cookbooks/][Configuration cookbook]]
+- another [[http://therandomsecurityguy.com/openvswitch-cheat-sheet/][cheat sheet]]
+- [[http://www.yet.org/2014/09/openvswitch-troubleshooting/][OpenStack Neutron and OVS]]
+- [[http://blog.mcchan.io/bridge-remote-networks-using-vxlan][VXLAN example]] using mininet
