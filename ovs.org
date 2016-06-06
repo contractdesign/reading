@@ -1,0 +1,61 @@
+Open vSwitch Cheat Sheet
+
+* Commands
+** ovs-vsctl
+The [[http://openvswitch.org/support/dist-docs/ovs-vsctl.8.txt][ovs-vsctl]] program configures ovs-vswitchd(8) by providing a
+high-level interface to its configuration database.  See
+ovs-vswitchd.conf.db(5) for comprehensive documentation of the
+database schema.
+
+
+
+
+** ovs-ofctl
+The [[http://openvswitch.org/support/dist-docs/ovs-ofctl.8.txt][ovs-ofctl]] program is a command line tool for monitoring and admin‐
+istering OpenFlow switches.  It can also show the current state of an
+OpenFlow switch, including features, configuration, and table entries.
+It should work with any OpenFlow switch, not just Open vSwitch.
+
+*** Management
+show switch <switch>     print info on switch
+dump-tables <switch>     statistics for each of the flow tables used
+dump-flows <switch>
+
+*** Flow Table
+add-flow <switch> <flow>  
+
+*** Group Table
+
+
+*** Monitoring
+snoop <switch>        print all received OpenFlow messages
+monitor <switch>
+
+*** Switch and Controller
+probe <switch>
+ping <switch> [n]
+
+
+
+** ovs-appctl
+Open vSwitch daemons (TODO) accept certain commands at runtime to control
+their behavior and query their settings.  Every daemon accepts a
+common set of commands documented under COMMON COMMANDS below.
+
+ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
+
+** ovs-dpctl
+
+
+
+** TODO
+- what are the valid fields for matching?
+- 
+
+
+
+* References
+1. [[https://github.com/openvswitch/ovs/blob/master/tutorial/Tutorial.md][tutorial]] that works through a VLAN example
+3. [[http://openvswitch.org/support/config-cookbooks/][Configuration cookbook]]
+2. another [[http://therandomsecurityguy.com/openvswitch-cheat-sheet/][cheat sheet]]
+3. [[http://www.yet.org/2014/09/openvswitch-troubleshooting/][OpenStack Neutron and OVS]]
