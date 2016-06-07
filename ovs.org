@@ -3,22 +3,43 @@ Open vSwitch Cheat Sheet
 * Architecture
 Open vSwitch is comprised of three parts:
 
-| Component          | Description                            | Commandline Control             |
-|--------------------+----------------------------------------+---------------------------------|
-| osvdb-server       | database storing switch configuration  | ovs-vsctl, ovsdb-tool (offline) |
-| ovs-vswitchd       | slow path implementing OpenFlow switch | ovs-ofctl                       |
-| openvswitch_mod.ko | fast path (kernel module)              | ovs-dpctl                       |
+| Component          | Description                            | Associated Commandline Utility              |
+|--------------------+----------------------------------------+---------------------------------------------|
+| osvdb-server       | database storing switch configuration  | ovs-vsctl, ovs-client, ovsdb-tool (offline) |
+| ovs-vswitchd       | slow path implementing OpenFlow switch | ovs-ofctl                                   |
+| openvswitch_mod.ko | fast path (kernel module)              | ovs-dpctl                                   |
 
 
 See [[http://www.yet.org/images/posts/ovs-archi.png][diagram]] for relationship between components.
 
 
-* Commandline Control
+* Commandline Utilities
 ** ovs-vsctl
 The [[http://openvswitch.org/support/dist-docs/ovs-vsctl.8.txt][ovs-vsctl]] program configures ovs-vswitchd(8) by providing a
 high-level interface to its configuration database.  See
 ovs-vswitchd.conf.db(5) for comprehensive documentation of the
 database schema.
+
+: init
+: show
+: add-br <switch>
+: del-br <switch>
+: list-ports <switch>
+: add-port <switch> port [column[:key]=value]
+
+
+** ovsdb-client
+The [[http://openvswitch.org/support/dist-docs/ovsdb-client.1.txt][ovsdb-client]] program is a command-line client for interacting with
+a running ovsdb-server process.
+
+: list-dbs [server]
+: get-schema [server] [database]
+: get-schema-version [server] [database]
+: list-tables [server] [database]
+: list-columns [server] [database] [table]
+: transact [server] transaction
+: dump [server] [database] [table [column...]]
+: monitor [server] [database] table [column[,col‐
 
 ** ovsdb-tool
 The [[http://openvswitch.org/support/dist-docs/ovsdb-tool.1.txt][ovsdb-tool]] program is a command-line tool for managing Open
@@ -33,24 +54,25 @@ OpenFlow switch, including features, configuration, and table entries.
 It should work with *any* OpenFlow switch, not just Open vSwitch.
 
 *** Management
-show switch <switch>     print info on switch
-dump-tables <switch>     statistics for each of the flow tables used
-dump-flows <switch>      print tables
-dump-ports <switch>      
+: show switch <switch>     print info on switch
+: dump-tables <switch>     statistics for each of the flow tables used
+: dump-flows <switch>      print tables
+: dump-ports <switch>      
 
 *** Flow Table
-add-flow <switch> <flow>  
+: add-flow <switch> <flow>  
 
 *** Group Table
 
+TODO
 
 *** Monitoring
-snoop <switch>        print all received OpenFlow messages
-monitor <switch>
+: snoop <switch>        print all received OpenFlow messages
+: monitor <switch>
 
 *** Switch and Controller
-probe <switch>
-ping <switch> [n]
+: probe <switch>
+: ping <switch> [n]
 
 ** ovs-dpctl
 The [[http://openvswitch.org/support/dist-docs/ovs-dpctl.8.txt][ovs-dpctl]] program can create, modify, and delete Open vSwitch
@@ -69,12 +91,7 @@ Open vSwitch daemons (TODO) accept certain commands at runtime to control
 their behavior and query their settings.  Every daemon accepts a
 common set of commands documented under COMMON COMMANDS below.
 
-ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
-
-
-
-
-
+: ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
 
 ** TODO
 - what are the valid fields for matching?
@@ -93,3 +110,5 @@ ovs-appctl ofproto/trace <switch> in_port=1,dl_dst=01:80:c2:00:00:05
 - another [[http://therandomsecurityguy.com/openvswitch-cheat-sheet/][cheat sheet]]
 - [[http://www.yet.org/2014/09/openvswitch-troubleshooting/][OpenStack Neutron and OVS]]
 - [[http://blog.mcchan.io/bridge-remote-networks-using-vxlan][VXLAN example]] using mininet
+- OSVDB is just a database.  [[http://www.relaxdiego.com/2014/09/ovsdb.html][Here]] is where it used to keep a reminder
+  list.
