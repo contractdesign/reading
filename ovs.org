@@ -41,6 +41,8 @@ a running ovsdb-server process.
 : dump [server] [database] [table [column...]]
 : monitor [server] [database] table [column[,col‐
 
+Tip: use ~--pretty~ to make the output readable.
+
 ** ovsdb-tool
 The [[http://openvswitch.org/support/dist-docs/ovsdb-tool.1.txt][ovsdb-tool]] program is a command-line tool for managing Open
 vSwitch database (OVSDB) files.  It does not interact directly with
@@ -60,8 +62,10 @@ It should work with *any* OpenFlow switch, not just Open vSwitch.
 : dump-ports <switch>      
 
 *** Flow Table
-: add-flow <switch> <flow>  
+: add-flow <switch> <flow>     add a flow
+: add-flow s1 'cookie=1010, icmp, priority=10, idle_timeout=0, actions=drop'
 
+: del-flows <switch>           remove all flows
 *** Group Table
 
 TODO
@@ -102,7 +106,7 @@ common set of commands documented under COMMON COMMANDS below.
 * Other
 ** Specifications
 - [[https://tools.ietf.org/html/rfc7047][RFC 7047]]: The Open vSwitch Database Management Protocol
-
+- OVS [[http://openvswitch.org/ovs-vswitchd.conf.db.5.pdf][schema]]
 
 ** Tutorials
 - [[https://github.com/openvswitch/ovs/blob/master/tutorial/Tutorial.md][tutorial]] that works through a VLAN example
@@ -112,3 +116,6 @@ common set of commands documented under COMMON COMMANDS below.
 - [[http://blog.mcchan.io/bridge-remote-networks-using-vxlan][VXLAN example]] using mininet
 - OSVDB is just a database.  [[http://www.relaxdiego.com/2014/09/ovsdb.html][Here]] is where it used to keep a reminder
   list.
+
+** Videos
+- [[https://www.youtube.com/watch?v=tnSkHhsLqpM][VXLAN overlay networks with OVS]]
